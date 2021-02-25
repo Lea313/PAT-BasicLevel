@@ -1,0 +1,46 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        String[] str = bf.readLine().split(" ");
+        int n = Integer.parseInt(str[0]);
+        int[] nums = new int[n];
+        for(int j=1;j<str.length;j++){
+            nums[j-1] = Integer.parseInt(str[j]);
+        }
+        sort(nums);
+        for(int j=0;j<nums.length-1;j++){
+            System.out.print(nums[j]+" ");
+        }
+        System.out.print(nums[nums.length-1]);
+        System.out.println();
+    }
+    protected static boolean less(int u, int v){
+        if(u<v){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    protected static void swap(int[] a, int i, int j){
+        int t = a[i];
+        a[i] = a[j];
+        a[j] = t;
+    }
+    public static void sort(int[] nums) {
+        int n = nums.length;
+        boolean isSorted = false;
+        for(int i=n-1;i>0&&!isSorted;i--){
+            isSorted = true;
+            for(int j=0;j<i;j++){
+                if(less(nums[j+1],nums[j])){
+                    isSorted = false;
+                    swap(nums,j,j+1);
+                }
+            }
+        }
+    }
+}
