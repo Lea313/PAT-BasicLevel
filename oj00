@@ -1,0 +1,50 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(bf.readLine());
+        for(int i=0;i<n;i++){
+            String[] str = bf.readLine().split(" ");
+            String[] strh = bf.readLine().split(" ");
+            int[] nums = new int[str.length];
+            for(int j=0;j<str.length;j++){
+                nums[j] = Integer.parseInt(str[j]);
+            }
+            int[] h = new int[strh.length];
+            for(int j=0;j<strh.length;j++){
+                h[j] = Integer.parseInt(strh[j]);
+            }
+            for(int hi: h){
+                sort(nums, hi);
+            }
+            for (int j=0;j< nums.length-1;j++){
+                System.out.print(nums[j]+" ");
+            }
+            System.out.print(nums[nums.length-1]);
+            System.out.println();
+        }
+    }
+    protected static boolean less(int u, int v){
+        if(u<v){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    protected static void swap(int[] a, int i, int j){
+        int t = a[i];
+        a[i] = a[j];
+        a[j] = t;
+    }
+    public static void sort(int[] nums, int h){
+        int n = nums.length;
+        for(int i=h;i<n;i++){
+            for(int j=i;j>=h&&less(nums[j],nums[j-h]);j-=h){
+                swap(nums,j,j-h);
+            }
+        }
+    }
+}
