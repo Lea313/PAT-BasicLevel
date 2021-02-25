@@ -1,0 +1,63 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Stack;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        String[] str = bf.readLine().split(" ");
+        int n = Integer.parseInt(str[0]);
+        int[] nums = new int[n];
+        for(int i=0;i<n;i++){
+            nums[i] = Integer.parseInt(str[i+1]);
+        }
+        quickSort(nums);
+        for(int i=0;i<n-1;i++){
+            System.out.print(nums[i]+" ");
+        }
+        System.out.print(nums[n-1]);
+        System.out.println();
+    }
+    public static void quickSort(int[] nums){
+        if(nums==null||nums.length==1) return;
+        Stack<Integer> stack = new Stack<>();
+        stack.push(0);
+        stack.push(nums.length-1);
+        while(!stack.isEmpty()){
+            int right = stack.pop();
+            int left = stack.pop();
+            if(right<=left) continue;
+            int i = partition(nums, left, right);
+            if(left<i-1){
+                stack.push(left);
+                stack.push(i-1);
+            }
+            if(i+1<right){
+                stack.push(i+1);
+                stack.push(right);
+            }
+        }
+    }
+    public static int partition(int[] nums, int left, int right){
+        int temp;
+        int i = left, j = right;
+        if(left<right){
+            temp = nums[i];
+            while(i<j){
+                while(j>i&&nums[j]>temp) j--;
+                if(i<j){
+                    nums[i] = nums[j];
+                    i++;
+                }
+                while(i<j&&temp>nums[i]) i++;
+                if(i<j){
+                    nums[j] = nums[i];
+                    j--;
+                }
+            }
+            nums[i] = temp;
+        }
+        return i;
+    }
+}
