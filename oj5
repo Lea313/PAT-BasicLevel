@@ -1,0 +1,52 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(bf.readLine());
+        for(int i=0;i<n;i++){
+            int len = Integer.parseInt(bf.readLine());
+            String[] str = bf.readLine().split(" ");
+            int[] nums = new int[len];
+            for(int j=0;j<len;j++){
+                nums[j] = Integer.parseInt(str[j]);
+            }
+            int[] res = new int[len];
+            res = countSort(nums);
+            for(int j=0;j<len-1;j++){
+                System.out.print(res[j]+" ");
+            }
+            System.out.print(res[len-1]);
+            System.out.println();
+        }
+    }
+    public static int[] countSort(int[] nums){
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for(int i=0;i<nums.length;i++){
+            map.put(nums[i], map.getOrDefault(nums[i],0)+1);
+        }
+        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(map.entrySet());
+        Collections.sort(list, new Comparator<Map.Entry<Integer, Integer>>() {
+            @Override
+            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+                return o2.getValue()-o1.getValue();
+            }
+        });
+        int[] res = new int[nums.length];
+        int index = 0;
+        Iterator<Map.Entry<Integer,Integer>> iter = list.iterator();
+        while (iter.hasNext()){
+            Map.Entry<Integer,Integer> item = iter.next();
+            int num = item.getKey();
+            int count = item.getValue();
+            while(count>0){
+                res[index++] = num;
+                count--;
+            }
+        }
+        return res;
+    }
+}
